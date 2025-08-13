@@ -1,6 +1,32 @@
 # 정신건강 프로젝트 패키지
 
 ## 1. Analysis Pipeline
+```python
+from mindcastlib.pipeline import AnalysisPipeLine
+from mindcastlib.src import prepare_data_with_temporal_condition
+from mindcastlib.configs import AnalysisConfig
+import pprint
+
+
+if __name__ == "__main__":
+
+    tc = ["2023-05-01", "2023-05-02"]
+    data_dir = "/home/dongwoo38/data/example/ex.json"
+
+    data = prepare_data_with_temporal_condition(tc, data_dir=data_dir)
+
+    pipeline = AnalysisPipeLine(
+        analysis_config=AnalysisConfig.SENT_CMT_TOPIC_TTL(),
+        realtime=False,
+        monitoring=True,
+        save=True,
+        save_dir="./outputs"
+    )
+
+    result = pipeline.run(data)
+
+    pprint.pprint(result)
+
 - **기능**: 뉴스 감정 분류, 토픽 분류, 요약
 - **✅완료**
   1. 모듈별 target 설정 가능 (`title`, `comments`)
@@ -27,28 +53,3 @@
   3. config별 FILE I/O 및 GPU/CPU 사용량 비교
 
 
-```python
-from mindcastlib.pipeline import AnalysisPipeLine
-from mindcastlib.src import prepare_data_with_temporal_condition
-from mindcastlib.configs import AnalysisConfig
-import pprint
-
-
-if __name__ == "__main__":
-
-    tc = ["2023-05-01", "2023-05-02"]
-    data_dir = "/home/dongwoo38/data/example/ex.json"
-
-    data = prepare_data_with_temporal_condition(tc, data_dir=data_dir)
-
-    pipeline = AnalysisPipeLine(
-        analysis_config=AnalysisConfig.SENT_CMT_TOPIC_TTL(),
-        realtime=False,
-        monitoring=True,
-        save=True,
-        save_dir="./outputs"
-    )
-
-    result = pipeline.run(data)
-
-    pprint.pprint(result)
