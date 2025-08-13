@@ -1,5 +1,8 @@
 # 정신건강 프로젝트 패키지
 
+```python
+pip install -r /home/dongwoo38/mindcastlib/requirements.txt
+
 ## 1. Analysis Pipeline
 - **기능**: 뉴스 감정 분류, 토픽 분류, 요약
 - **✅ 완료**
