@@ -2,7 +2,7 @@
 
 ## 1. Analysis Pipeline
 - **기능**: 뉴스 감정 분류, 토픽 분류, 요약
-- **완료**
+- **✅완료**
   1. 모듈별 target 설정 가능 (`title`, `comments`)
   2. 모듈별 model 설정 가능 (base model, fine-tuned model 등)
   3. config preset 제공 (customizing 가능)
