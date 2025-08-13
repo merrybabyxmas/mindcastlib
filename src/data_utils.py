@@ -152,18 +152,18 @@ if __name__ == "__main__":
     print(extract_comments(res))
     
     
-    sent_func = HFSentimentFunc(
-        model_name="hun3359/klue-bert-base-sentiment",
-        device=0 if torch.cuda.is_available() else -1,
-        batch_size=32,
-        return_all_scores=False,  # True로 하면 모든 라벨 점수 반환
-        max_length=256
-    )
+    # sent_func = HFSentimentFunc(
+    #     model_name="hun3359/klue-bert-base-sentiment",
+    #     device=0 if torch.cuda.is_available() else -1,
+    #     batch_size=32,
+    #     return_all_scores=False,  # True로 하면 모든 라벨 점수 반환
+    #     max_length=256
+    # )
 
-    # 3) 타이틀/댓글에 적용
-    res = _apply_func_to_title(func=sent_func, data=res, func_name="hf_sent")
-    res = _apply_func_to_comments(func=sent_func, data=res, func_name="hf_sent")
-    pprint.pprint(res)
+    # # 3) 타이틀/댓글에 적용
+    # res = _apply_func_to_title(func=sent_func, data=res, func_name="hf_sent")
+    # res = _apply_func_to_comments(func=sent_func, data=res, func_name="hf_sent")
+    # pprint.pprint(res)
 
     
     

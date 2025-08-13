@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import List, Literal
 from pydantic import BaseModel, Field, field_validator, ConfigDict
 
-from model_config import (
+from .model_config import (
     BaseConfig,
     DefaultModuleConfig,
     TrainedModuleConfig_V1,
@@ -43,8 +43,8 @@ class AnalysisConfig(BaseModel):
         mods = DefaultModuleConfig()
         return cls(
             sentiment=AnalysisUnit(active=True, target=["comments"], module=mods.sentiment_model),
-            topic=AnalysisUnit(active=True, target=["title"], module=mods.topic_model),
-            classifier=AnalysisUnit(active=True, target=["comments"], module=mods.classifier_model),
+            topic=AnalysisUnit(active=False, target=["title"], module=mods.topic_model),
+            classifier=AnalysisUnit(active=False, target=["comments"], module=mods.classifier_model),
         )
 
     @classmethod
@@ -65,13 +65,13 @@ class AnalysisConfig(BaseModel):
             topic=AnalysisUnit(active=True, target=both, module=mods.topic_model),
             classifier=AnalysisUnit(active=False, target=both, module=mods.classifier_model),
         )
-    # -------- presets(후에 finetuned model 프리셋도 추가 )--------
+    # -------- TODO : presets(후에 finetuned model 프리셋도 추가 )--------
 
 
 if __name__ == "__main__":
     cfg = AnalysisConfig.SENT_CMT_TOPIC_TTL()
     print(cfg.model_dump_json(indent=2, exclude_none=True))
-    for name in cfg.model_fields:                  # 'sentiment', 'topic', 'classifier'
+    for name in cfg.model_fields:                  # 'sentiment', 'topic', 'classifier' 중 하나임.
         unit = getattr(cfg, name)                  # AnalysisUnit 인스턴스
         print(name, unit.active, unit.target)      # 값 출력
         if unit.active:
