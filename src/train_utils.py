@@ -15,6 +15,10 @@ class LLMPipeLine():
 
 
 
+
+# 예시 실행 
+# python -m mindcastlib.src.train_utils
+
 if __name__ == "__main__":
     cfg_sent = LLMConfig().CLASSIFY_SENTIMENT()
     cfg_topic = LLMConfig().CLASSIFY_TOPIC()
