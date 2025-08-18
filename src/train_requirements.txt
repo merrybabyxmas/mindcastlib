@@ -1,0 +1,21 @@
+# requirements.txt — mindcastlib
+# Install with: pip install -r requirements.txt
+
+# --- Core config/ENV ---
+pydantic>=2.7
+python-dotenv>=1.0.1
+
+# --- OpenAI / Google ---
+openai>=1.43.0
+google-generativeai>=0.7.2
+
+# --- Hugging Face / Transformers ---
+transformers>=4.44.2
+accelerate>=0.33.0
+sentencepiece>=0.1.99
+safetensors>=0.4.3
+huggingface_hub>=0.23.0
+
+# --- PyTorch (CPU build by default)
+# If you need CUDA, install a specific wheel from https://pytorch.org/get-started/locally/
+torch>=2.3.0
