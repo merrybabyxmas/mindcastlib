@@ -3,10 +3,8 @@ from pathlib import Path
 import torch 
 from mindcastlib.configs import PreProcessConfig
 import pprint
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Literal
 import logging
-
-# TODO : 정선이 코드 추가 
 
 import json
 import re
@@ -88,7 +86,7 @@ def preprocess_json(cfg: PreProcessConfig, root_dir, base_output_dir=None, save=
                 "raw_title": raw_title,
                 "news_date": news_date,
                 "comments": grouped_comments
-            }
+            } # TODO :[정선] all values 추가 (추후)
 
             post = {k: v for k, v in all_values.items() if k in cfg.included}
 
@@ -136,6 +134,8 @@ def preprocess_json(cfg: PreProcessConfig, root_dir, base_output_dir=None, save=
     return output_results
 
 
+
+
 def preprocess_raw_data(cfg:PreProcessConfig, 
                         input_dir: Path | str = None, 
                         save_dir:Path | str = None,
@@ -170,6 +170,22 @@ def preprocess_raw_data(cfg:PreProcessConfig,
         save=save,
         monitoring=monitoring
     )
+
+
+
+# TODO: [대원]
+class GrammerChecker:
+    def __init__(self,
+                 method = Literal["re", "snu"]):
+        pass
+    def forward(self, data:List[str]) -> List[str]:
+        # 데이터 : List[str] -> List[str] 형식 꼭 맞춰서 만들어줄 것.
+        # ex. data : ["안녕하쉐요", 오늘참날 씨가덥 다" ] -> GrammerChecker -> ["안녕하세요", "오늘 참 날씨가 덥다"]
+        # 이렇게 결과가 나오도록 !  
+
+
+
+
 
 
 # 예시 실행 
