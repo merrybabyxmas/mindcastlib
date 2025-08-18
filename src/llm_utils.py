@@ -22,8 +22,8 @@ class LLMPipeLine():
 # python -m mindcastlib.src.train_utils
 
 if __name__ == "__main__":
-    cfg_sent = LLMConfig().CLASSIFY_SENTIMENT()
-    cfg_topic = LLMConfig().CLASSIFY_TOPIC()
+    cfg_sent = LLMConfig.CLASSIFY_SENTIMENT()
+    cfg_topic = LLMConfig.CLASSIFY_TOPIC()
     
     # 예시 출력 -> 여기의 config 활용해서 모델 만들기
     cfg_sent.llm_name = "gpt4o"

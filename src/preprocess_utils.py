@@ -182,6 +182,7 @@ class GrammerChecker:
         # 데이터 : List[str] -> List[str] 형식 꼭 맞춰서 만들어줄 것.
         # ex. data : ["안녕하쉐요", 오늘참날 씨가덥 다" ] -> GrammerChecker -> ["안녕하세요", "오늘 참 날씨가 덥다"]
         # 이렇게 결과가 나오도록 !  
+        pass
 
 
 
