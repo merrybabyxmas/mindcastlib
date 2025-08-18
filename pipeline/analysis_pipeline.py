@@ -19,7 +19,6 @@ Target = Literal["title", "comments"]
 Task = Literal["sentiment", "topic", "summary"]
 
 
-
 @dataclass
 class MCPipeSpec:
     task : Literal["sentiment", "topic", "summary"]

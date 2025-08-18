@@ -9,7 +9,6 @@ class LLMPipeLine():
         pass
     def forward(self, data:List[str]) -> List[str]:
         
-        # 
         pass 
 
 

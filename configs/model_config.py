@@ -8,7 +8,6 @@ class BaseConfig(BaseModel):
     """
     개별 모델(HF pipeline/자체 모델) 설정 단위.
     - 모델 식별자 및 런타임 파라미터 보관
-    - extra='allow'로 -> pipeline 특화 kwargs를 자유롭게 추가 가능
     """
     model_name: str
     finetuned: bool = False
