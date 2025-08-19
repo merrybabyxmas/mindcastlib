@@ -69,6 +69,27 @@ def extract_comments(data: Dict) -> List[str]:
                     comments.append(c)
     return comments
 
+
+def extract_somthing_title_like(data: Dict, target:str) -> List[str]:
+    titles: List[str] = []
+    for day in data.get("data", []):
+        for post in day.get("posts", []):
+            t = post.get(target)
+            if t is not None:
+                titles.append(t)
+    return titles
+
+
+
+def extract_something_comments_like(data: Dict, target:str) -> List[str]:
+    comments: List[str] = []
+    for day in data.get("data", []):
+        for post in day.get("posts", []):
+            for c in post.get(target, []):
+                if c is not None:
+                    comments.append(c)
+    return comments
+
                 
 def apply_func_to_title(
     func: Callable | None = None,
@@ -95,6 +116,36 @@ def apply_func_to_title(
                 analyses = post.setdefault("analyses", {})
                 analyses[func_name + "_title"] = res
     return data
+
+def apply_func_to_something_from_titlelike_double_data(
+    func: Callable | None = None,
+    func_name: str | None = None,
+    target1: str | None = None,
+    target2: str | None = None,
+    data1: Dict | None = None,
+    data2: Dict | None = None,
+    **kwargs
+) -> Dict:
+    if target1 is None:
+        raise ValueError("you should put target column name e.g. 'LLm_sentiment'")
+    ## 나머지도 추가
+    if func is None:
+        raise ValueError("you should put Callable model e.g. Sentiment classification Model...")
+    if data1 is None:
+        raise ValueError("You should put data!")
+
+    func_name = func_name if func_name is not None else func.__class__.__name__
+
+    somethings1: List[str] = extract_somthing_title_like(data1, target1)
+    somethings2: List[str] = extract_somthing_title_like(data2, target2)
+    return func(somethings1, somethings2)
+
+
+
+
+
+
+
 
 
 def apply_func_to_comments(
@@ -129,9 +180,28 @@ def apply_func_to_comments(
     return data
     
     
+def apply_func_to_something_from_commentlike_double_data(
+    func: Callable | None = None,
+    func_name: str | None = None,
+    target1: str | None = None,
+    target2: str | None = None,
+    data1: Dict | None = None,
+    data2: Dict | None = None,
+    **kwargs
+) -> Dict:
+    if target1 is None:
+        raise ValueError("you should put target column name e.g. 'LLm_sentiment'")
+    ## 나머지도 추가
+    if func is None:
+        raise ValueError("you should put Callable model e.g. Sentiment classification Model...")
+    if data1 is None:
+        raise ValueError("You should put data!")
 
+    func_name = func_name if func_name is not None else func.__class__.__name__
 
-
+    somethings1: List[str] = extract_something_comments_like(data1, target1)
+    somethings2: List[str] = extract_something_comments_like(data2, target2)
+    return func(somethings1, somethings2)
 
 
     
