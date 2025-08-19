@@ -11,7 +11,7 @@ import torch
 
 from mindcastlib.configs import LabelingConfig
 from mindcastlib.src import apply_func_to_title, apply_func_to_comments, extract_titles, extract_comments, prepare_data_with_temporal_condition
-from mindcastlib.src import LLMPipeLine
+from mindcastlib.src import LLMPipeLine, prompt_and_save_if_missing, load_api_keys
 
 
 Target = Literal["title", "comments"]
@@ -81,7 +81,7 @@ class LabelingPipeLine:
         
         if self.cfg.sentiment.active:
             for tgt in self.cfg.sentiment.target:
-                key = f"sentiment_{key}"
+                key = f"sentiment_{tgt}"
                 self.runners[key] = build_task_callable(
                     task = "sentiment", target = tgt, cfg = self.cfg.sentiment.llm
                 )
@@ -121,19 +121,41 @@ class LabelingPipeLine:
     
     
 if __name__ == "__main__":
+    
+    
+
+    
+    ##### 데이터 로딩 ###### 
     tc = ["2023-05-01", "2023-05-02"]
     data_dir = "/home/dongwoo38/data/example/ex.json"
-    
     data = prepare_data_with_temporal_condition(tc, data_dir=data_dir)
     
-    pipeline = LabelingPipeLine(
-        labeling_config= LabelingConfig.SENT_ALL_TOPIC_TTL(),
+    
+    
+    
+    ##### config 로딩 ######
+    cfg = LabelingConfig.SENT_CMT_TOPIC_TTL() # default : model->"gpt-opensrc", max_token->10 임. 단지 customize가능하다는 점을 보여주기 위해 작성
+    model_name = "gpt-opensrc"
+    max_token = 10
+    cfg.sentiment.llm.llm_name = model_name
+    cfg.sentiment.llm.max_token = max_token
+    cfg.topic.llm.llm_name = model_name
+    cfg.topic.llm.max_token = max_token
+
+    ##### LLM api key 로딩 ######    
+    load_api_keys("mindcast.env") #.env 파일 이름을 지정 
+    prompt_and_save_if_missing("OPENAI_API_KEY", "OpenAI API key")
+    
+    
+    pipe = LabelingPipeLine(
+        labeling_config= cfg,
         realtime=False,
         monitoring=True,
         save=True,
         save_dir="./outputs"
     )
-
+    
+    pipe.run(data)
 
 
         

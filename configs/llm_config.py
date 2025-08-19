@@ -11,7 +11,7 @@ TOPIC_CLASSES = ["경제", "정치", "사회", "연예", "건강"]
 
 
 class LLMConfig(BaseModel):
-    llm_name    : LLM_name = "llama"
+    llm_name    : LLM_name = "gpt-opensrc"
     max_token   : int = 10
     role        : str = ""
     SENTIMENT_CLASSES : List =  ["분노", "슬픔", "불안", "상처", "당황", "기쁨"]
