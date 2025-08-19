@@ -1,0 +1,47 @@
+{
+    "file_name" : "./outputs/ex.json",
+    "llm_name" : "gpt-opensrc",
+    "target" : "comments",
+    "task" : "sentiment",
+    "labels" : ["당황", "기쁨", "슬픔", "분노", "힘듬`"],
+    "label distribution":{
+        "당황" : 0.2,
+        "기쁨" : 0.2,
+        "슬픔" : 0.2,
+        "분노" : 0.2,
+        "힘듬" : 0.2
+    },
+    "total_data_length" : 120,
+    "total_f1_score" : 1,
+    "total_precision_score" : 1,
+    "total_recall_score" : 1,
+    "details" : {
+        "당황" : {
+            "당황_f1_score" : 1,
+            "당황_precision_score" : 1,
+            "당황_recall_score" : 1
+        },
+        "기쁨" : {
+            "기쁨" : 1,
+            "기쁨_precision_score" : 1,
+            "기쁨_recall_score" : 1
+        },
+        "슬픔" : {
+            "슬픔_f1_score" : 1,
+            "슬픔_precision_score" : 1,
+            "슬픔_recall_score" : 1
+        },
+        "분노" : {
+            "분노_f1_score" : 1,
+            "분노_precision_score" : 1,
+            "분노_recall_score" : 1
+        },
+        "힘듬" : {
+            "힘듬_f1_score" : 1,
+            "힘듬_precision_score" : 1,
+            "힘듬_recall_score" : 1
+        }
+    },
+    "comparision_raw_data_directory" : "./eval/comparision_ex_comments_sentiment_gpt-opensrc.csv",
+    "date": 250819
+}
