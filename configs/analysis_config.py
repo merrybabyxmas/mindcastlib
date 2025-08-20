@@ -43,7 +43,7 @@ class AnalysisConfig(BaseModel):
         mods = DefaultModuleConfig()
         return cls(
             sentiment=AnalysisUnit(active=True, target=["comments"], module=mods.sentiment_model),
-            topic=AnalysisUnit(active=False, target=["title"], module=mods.topic_model),
+            topic=AnalysisUnit(active=True, target=["title"], module=mods.topic_model),
             classifier=AnalysisUnit(active=False, target=["comments"], module=mods.classifier_model),
         )
 

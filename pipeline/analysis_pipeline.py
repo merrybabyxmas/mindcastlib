@@ -2,7 +2,7 @@ from __future__ import annotations
 import os
 import json
 import time
-from typing import List, Dict, Tuple, Literal, Optional 
+from typing import List, Dict, Tuple, Literal, Optional, Union
 from dataclasses import dataclass 
 import logging
 import pprint 
@@ -12,7 +12,7 @@ from transformers import pipeline
 
 from mindcastlib.configs import BaseConfig, AnalysisConfig, AnalysisUnit
 from mindcastlib.src import apply_func_to_title, apply_func_to_comments, extract_titles, extract_comments, prepare_data_with_temporal_condition
-
+from mindcastlib.src import should_collapse6, macro_slices_60x6, predict_6sentiments
 
 
 Target = Literal["title", "comments"]
@@ -47,16 +47,36 @@ class ModuleCallable:
             model=self.cfg.model_name,    
             device = device_index,    
         )
+        self._collapse6 = False
+        
+        if self.task == "sentiment":
+            self._macro_labels = self.cfg.macro_labels
+            self._macro_slices = macro_slices_60x6()
+            self._collapse6 = should_collapse6(self.task, self.pipe.model)
+        
+        
         
         
     def __call__(self, data: Dict) -> Dict:
+        fn = None
         if len(data) == 0:
             return {}
+        if self._collapse6:
+            def func(texts : Union[str, List[str]]):
+                return predict_6sentiments(
+                    texts = texts,
+                    pipe  = self.pipe,
+                    macro_slices = self._macro_slices,
+                    **self.cfg.model_dump()
+                )
+            fn = "SentimentClassificationPipeLine"
+        else:
+            func = self.pipe
         
         if self.target == "title":
-            return apply_func_to_title(func = self.pipe, data = data)
+            return apply_func_to_title(func = func, func_name=fn, data = data)
         elif self.target == "comments":
-            return apply_func_to_comments(func = self.pipe, data = data)
+            return apply_func_to_comments(func = func, func_name = fn, data = data)
         
         return data
         
@@ -157,7 +177,7 @@ if __name__ == "__main__":
         realtime=False,
         monitoring=True,
         save=True,
-        save_dir="./outputs"
+        save_dir="./outputs/analysis"
     )
 
     result = pipeline.run(data)

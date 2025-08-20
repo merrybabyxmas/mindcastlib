@@ -8,7 +8,19 @@ import pprint
 import torch
 
 
+def prepare_data(
+    data_dir: str = None   
+    ) -> Dict:
+    if data_dir is None:
+        raise FileNotFoundError(f"you should put data directory address, current : {data_dir}")
+    else:
+        logging.info(f"Load data from {data_dir}")
+        with open(data_dir, "r") as f:
+            raw_data = json.load(f)
+            return raw_data
+    return {}
 
+        
 
 def prepare_data_with_temporal_condition(
     tc: List[str] | None,
@@ -70,27 +82,53 @@ def extract_comments(data: Dict) -> List[str]:
     return comments
 
 
-def extract_somthing_title_like(data: Dict, target:str) -> List[str]:
-    titles: List[str] = []
+
+def extract_analysis_from_title(data: Dict, key: str, labels_only: bool = False) -> List[Any]:
+    """
+    post.analyses[key] 안의 결과를 리스트로 추출.
+    labels_only=True면 label 문자열만 뽑아서 반환.
+    """
+    results: List[Any] = []
     for day in data.get("data", []):
         for post in day.get("posts", []):
-            t = post.get(target)
-            if t is not None:
-                titles.append(t)
-    return titles
+            analyses = post.get("analyses", {})
+            if key in analyses:
+                val = analyses[key]
+                if labels_only:
+                    if isinstance(val, dict) and "label" in val:
+                        results.append(val["label"])
+                    
+                else:
+                    results.append(val)
+    return results
 
 
-
-def extract_something_comments_like(data: Dict, target:str) -> List[str]:
-    comments: List[str] = []
+def extract_analysis_from_comments(data: Dict, key: str, labels_only: bool = False) -> List[Any]:
+    """
+    post.analyses[key] 안의 결과를 평탄화해서 반환.
+    labels_only=True면 label 문자열만 뽑아서 리스트로 반환.
+    """
+    results: List[Any] = []
+    # print(f"data : {data}")
+    # print(f"key : {key}")
+    
     for day in data.get("data", []):
         for post in day.get("posts", []):
-            for c in post.get(target, []):
-                if c is not None:
-                    comments.append(c)
-    return comments
+            analyses = post.get("analyses", {})
+            if key in analyses:
+                for r in analyses[key]:  # r은 [{'label':..,'score':..}] 꼴
+                    if labels_only:
+                        # 가장 높은 score의 label만 가져오려면:
+                        if isinstance(r, list) and len(r) > 0:
+                            results.append(r[0]["label"])
+                        elif isinstance(r, dict):
+                            results.append(r["label"])
+                            
+                    else:
+                        results.append(r)
+    return results
 
-                
+
 def apply_func_to_title(
     func: Callable | None = None,
     func_name: str | None = None,
@@ -104,49 +142,21 @@ def apply_func_to_title(
 
     func_name = func_name if func_name is not None else func.__class__.__name__
 
-    titles: List[str] = extract_titles(data)
-    func_results_iter = iter(func(titles, **kwargs))
-
+    all_comments: List[str] = extract_comments(data)
+    func_results_iter = iter(func(all_comments, **kwargs))    
     for day in data.get("data", []):
         for post in day.get("posts", []):
             t = post.get("title")
             if t is not None:
-                # 각 post에 결과를 저장
-                res = next(func_results_iter)
+                r = next(func_results_iter)
+                if isinstance(r, str):
+                    res = {"label": r}
+                else:
+                    res = r
+                # title도 리스트로 맞추려면:
                 analyses = post.setdefault("analyses", {})
-                analyses[func_name + "_title"] = res
+                analyses[func_name + "_title"] = [res]   # 리스트로 감싸기
     return data
-
-def apply_func_to_something_from_titlelike_double_data(
-    func: Callable | None = None,
-    func_name: str | None = None,
-    target1: str | None = None,
-    target2: str | None = None,
-    data1: Dict | None = None,
-    data2: Dict | None = None,
-    **kwargs
-) -> Dict:
-    if target1 is None:
-        raise ValueError("you should put target column name e.g. 'LLm_sentiment'")
-    ## 나머지도 추가
-    if func is None:
-        raise ValueError("you should put Callable model e.g. Sentiment classification Model...")
-    if data1 is None:
-        raise ValueError("You should put data!")
-
-    func_name = func_name if func_name is not None else func.__class__.__name__
-
-    somethings1: List[str] = extract_somthing_title_like(data1, target1)
-    somethings2: List[str] = extract_somthing_title_like(data2, target2)
-    return func(somethings1, somethings2)
-
-
-
-
-
-
-
-
 
 def apply_func_to_comments(
     func: Callable | None = None,
@@ -161,7 +171,6 @@ def apply_func_to_comments(
 
     func_name = func_name if func_name is not None else func.__class__.__name__
 
-    # 전체 comment를 한 번에 추출/추론
     all_comments: List[str] = extract_comments(data)
     func_results_iter = iter(func(all_comments, **kwargs))
 
@@ -171,45 +180,64 @@ def apply_func_to_comments(
             n = len(comments)
             if n == 0:
                 continue
-            # 해당 post의 댓글 개수만큼 결과를 떼서 저장
-            per_post_results = [next(func_results_iter) for _ in range(n)]
+
+            per_post_results = []
+            for _ in range(n):
+                r = next(func_results_iter)
+                # string → {"label": str} → [ {...} ] 로 감싸기
+                if isinstance(r, str):
+                    per_post_results.append([{"label": r}])
+                elif isinstance(r, dict) and "label" in r:
+                    per_post_results.append([r])
+                else:
+                    per_post_results.append(r)
 
             analyses = post.setdefault("analyses", {})
             analyses[func_name + "_comments"] = per_post_results
 
     return data
-    
-    
-def apply_func_to_something_from_commentlike_double_data(
-    func: Callable | None = None,
+
+
+def apply_func_to_something_from_titlelike_double_data(
+    func: Callable,
+    target1: str,
+    target2: str,
+    data1: Dict,
+    data2: Dict,
     func_name: str | None = None,
-    target1: str | None = None,
-    target2: str | None = None,
-    data1: Dict | None = None,
-    data2: Dict | None = None,
+    labels_only: bool = False,
     **kwargs
 ) -> Dict:
-    if target1 is None:
-        raise ValueError("you should put target column name e.g. 'LLm_sentiment'")
-    ## 나머지도 추가
-    if func is None:
-        raise ValueError("you should put Callable model e.g. Sentiment classification Model...")
-    if data1 is None:
-        raise ValueError("You should put data!")
+    true_vals = extract_analysis_from_title(data1, target1, labels_only=labels_only)
+    pred_vals = extract_analysis_from_title(data2, target2, labels_only=labels_only)
+    return func(true_vals, pred_vals, **kwargs)
 
-    func_name = func_name if func_name is not None else func.__class__.__name__
 
-    somethings1: List[str] = extract_something_comments_like(data1, target1)
-    somethings2: List[str] = extract_something_comments_like(data2, target2)
-    return func(somethings1, somethings2)
-
+def apply_func_to_something_from_commentlike_double_data(
+    func: Callable,
+    target1: str,
+    target2: str,
+    data1: Dict,
+    data2: Dict,
+    func_name: str | None = None,
+    labels_only: bool = False,
+    **kwargs
+) -> Dict:
+    true_vals = extract_analysis_from_comments(data1, target1, labels_only=labels_only)
+    pred_vals = extract_analysis_from_comments(data2, target2, labels_only=labels_only)
+    return func(true_vals, pred_vals, **kwargs)
 
     
+
     
 if __name__ == "__main__":
     # config import 테스트
     # config = SENT_CMT_TOPIC_TTL_CONFIG()
     # print(config.model_dump_json(indent = 2))
+    
+    # from mindcastlib.configs import DefaultModuleConfig
+    # cfg = DefaultModuleConfig()
+    # print(cfg.sentiment_model.macro_labels)
     
     
     # temporal conditon 테스트 
@@ -218,8 +246,8 @@ if __name__ == "__main__":
     res = prepare_data_with_temporal_condition(tc, data_dir=data_dir)
     # pprint.pprint(res)
     
-    print(extract_titles(res))
-    print(extract_comments(res))
+    # print(extract_titles(res))
+    # print(extract_comments(res))
     
     
     # sent_func = HFSentimentFunc(
@@ -235,6 +263,16 @@ if __name__ == "__main__":
     # res = _apply_func_to_comments(func=sent_func, data=res, func_name="hf_sent")
     # pprint.pprint(res)
 
-    
+
+
+    # extract analysis
+    tc = ["2023-05-01", "2023-05-02"]
+    data_dir = "/home/dongwoo38/outputs/analysis/infer_20250820_133357.json"
+    title_target = "TextClassificationPipeline_title" 
+    comment_target = "SentimentClassification_comments"
+    res = prepare_data_with_temporal_condition(tc, data_dir=data_dir)
+    print(extract_analysis_from_comments(res, comment_target, labels_only= True))
+    print(extract_analysis_from_title(res, title_target, labels_only=True))    
+        
     
     

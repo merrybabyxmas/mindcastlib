@@ -1,8 +1,12 @@
 from mindcastlib.src import (
-    prepare_data_with_temporal_condition,
+    _EvaluationPipeLine,
+    prepare_data,
     apply_func_to_something_from_commentlike_double_data as apply_double_cmt_likedata,
-    apply_func_to_something_from_titlelike_double_data as apply_double_ttl_likedata
+    apply_func_to_something_from_titlelike_double_data as apply_double_ttl_likedata,
 )
+from mindcastlib.configs import EvaluationConfig
+
+
 from typing import List, Dict, Literal
 from pydantic import BaseModel
 from sklearn.metrics import precision_recall_fscore_support, classification_report
@@ -12,65 +16,9 @@ import time
 import json
 import os
 
-# 빈 리스트면 스코어 계산이 불가하므로 기본값 하나라도 둠 (원하면 바꿔서 사용)
-SENT_LABELS = ["happy", "sad", "neutral"]
 
 Task = Literal["sentiment", "topic", "summary"]
 Target = Literal["title", "comments"]
-
-
-class EvalDataConfig(BaseModel):
-    target: str
-    zero_division: int = 0   # 오탈자(zero_divison) 수정
-
-
-class EvaluationConfig(BaseModel):
-    pred: EvalDataConfig
-    true: EvalDataConfig
-    labels: List[str]
-    average: str = "macro"
-
-    @classmethod
-    def SENT_CMT_ONLY(cls):
-        return cls(
-            pred=EvalDataConfig(target="TextClassificationPipeline_comments"),
-            true=EvalDataConfig(target="LLMPipeLine_comments"),
-            labels=SENT_LABELS,
-        )
-
-    @classmethod
-    def DefaultConfig(cls):
-        # 사용자가 호출한 이름 유지
-        return cls.SENT_CMT_ONLY()
-
-
-class _EvaluationPipeLine:
-    def __init__(self, cfg: EvaluationConfig | None = None):
-        # 누락된 __init__ 복구 + 기본값 처리
-        self.cfg = cfg or EvaluationConfig.DefaultConfig()
-
-    def __call__(self, preds: List[str], trues: List[str]) -> Dict:
-        # average는 EvaluationConfig 소속, zero_division은 pred 설정 사용(요구시 true로 변경 가능)
-        precision, recall, f1, _ = precision_recall_fscore_support(
-            trues,
-            preds,
-            average=self.cfg.average,
-            labels=self.cfg.labels,
-            zero_division=self.cfg.pred.zero_division,
-        )
-        report = classification_report(
-            trues,
-            preds,
-            labels=self.cfg.labels,
-            zero_division=self.cfg.pred.zero_division,
-        )
-        return {
-            "precision": float(precision),
-            "recall": float(recall),
-            "f1": float(f1),
-            "detail_report": report,
-        }
-
 
 @dataclass
 class MCEvalSpec:
@@ -93,11 +41,13 @@ class ModuleCallable:
         if self.target == "title":
             return apply_double_ttl_likedata(func=self.pipe, data1=true, data2=pred,
                                              target1= self.cfg.true.target,
-                                             target2= self.cfg.pred.target)
+                                             target2= self.cfg.pred.target,
+                                             labels_only=True)
         elif self.target == "comments":
             return apply_double_cmt_likedata(func=self.pipe, data1=true, data2=pred,
                                              target1= self.cfg.true.target,
-                                             target2= self.cfg.pred.target)
+                                             target2= self.cfg.pred.target,
+                                             labels_only=True)
 
         # 기본 반환 (실행 도달 X)
         return {"warning": "unknown target", "true": true, "pred": pred}
@@ -177,15 +127,14 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s")
 
     tc = ["2023-05-01", "2023-05-02"]
-    data_dir = "/home/dongwoo38/data/example/ex.json"
+    pred_dir = "/home/dongwoo38/outputs/analysis/infer_20250820_133357.json"
+    true_dir = "/home/dongwoo38/outputs/labeled/labeling_20250820_141953.json"
 
-    data_pred = prepare_data_with_temporal_condition(tc, data_dir=data_dir)
+    data_pred = prepare_data(data_dir=pred_dir)
     
-    
-    # 실제로 labeling.json으로 수정할 것 
-    data_true = prepare_data_with_temporal_condition(tc, data_dir=data_dir)
+    data_true = prepare_data(data_dir=true_dir)
 
-    cfg = EvaluationConfig.DefaultConfig()
+    cfg = EvaluationConfig.SENT_CMT_ONLY()
 
     pipeline = EvaluationPipeLine(
         evaluation_config=cfg,

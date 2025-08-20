@@ -3,10 +3,18 @@ from __future__ import annotations
 import torch
 from pydantic import BaseModel, Field, field_validator, ConfigDict
 from typing import List, Dict, Tuple, Optional, Callable, Literal
+from .model_config import (
+    DefaultModuleConfig
+)
+
 
 LLM_name = Literal["gpt4o", "gpt-opensrc", "gemini", "llama"] # 위 옵션 중 하나 선택 
-SENTIMENT_CLASSES = ["분노", "슬픔", "불안", "상처", "당황", "기쁨"]
-TOPIC_CLASSES = ["경제", "정치", "사회", "연예", "건강"]
+
+
+
+model_config = DefaultModuleConfig()
+SENTIMENT_CLASSES = model_config.sentiment_model.macro_labels
+TOPIC_CLASSES = model_config.topic_model.macro_labels
 
 
 
@@ -14,8 +22,8 @@ class LLMConfig(BaseModel):
     llm_name    : LLM_name = "gpt-opensrc"
     max_token   : int = 10
     role        : str = ""
-    SENTIMENT_CLASSES : List =  ["분노", "슬픔", "불안", "상처", "당황", "기쁨"]
-    TOPIC_CLASSES :     List = ["경제", "정치", "사회", "연예", "건강"]
+    SENTIMENT_CLASSES : List = SENTIMENT_CLASSES
+    TOPIC_CLASSES :     List = TOPIC_CLASSES
     
     @field_validator("max_token")
     @classmethod
@@ -52,7 +60,7 @@ class LLMConfig(BaseModel):
                 "예시:\n"
                 "Input: \"코스피 오늘 상승\"  → Output: 경제\n"
                 "Input: \"대통령 연설 분석\"  → Output: 정치\n"
-                "Input: \"신규 백신 접종률 증가\"  → Output: 건강\n"
+                "Input: \"신규 백신 접종률 증가\"  → Output: 생활문화\n"
                 "Input: \"title3\"  → Output: 사회   # 실제로는 맥락이 부족해도 ‘사회’로 고정\n\n"
                 "이제 분류할 문장: "
             )

@@ -152,7 +152,7 @@ if __name__ == "__main__":
         realtime=False,
         monitoring=True,
         save=True,
-        save_dir="./outputs"
+        save_dir="./outputs/labeled"
     )
     
     pipe.run(data)

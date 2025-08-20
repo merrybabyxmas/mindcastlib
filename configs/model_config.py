@@ -56,15 +56,17 @@ class DefaultModuleConfig(BaseModuleConfig):
         batch_size=32,
         truncation=True,
         max_length=256,
-        return_all_scores=True,
+        return_all_scores=False,
+        macro_labels = ["분노", "슬픔", "불안", "상처", "당황", "기쁨"]
     )
     topic_model: BaseConfig = BaseConfig(
-        model_name="MC_TOPIC_LLFT_0812",   # 필요시 실제 토픽 모델 ID로 교체
+        model_name="freud-sensei/headline_classification",   
         finetuned=True,
         batch_size=32,
         truncation=True,
         max_length=256,
         return_all_scores=False,
+        macro_labels = ["IT과학", "경제", "사회", "생활문화", "세계", "스포츠", "정치"]
     )
     classifier_model: BaseConfig = BaseConfig(
         model_name="MC_SENT_LLFT_0812",    # 예: zero-shot/기본 분류기
