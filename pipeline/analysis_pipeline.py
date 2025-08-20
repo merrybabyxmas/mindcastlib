@@ -11,7 +11,7 @@ import torch
 from transformers import pipeline
 
 from mindcastlib.configs import BaseConfig, AnalysisConfig, AnalysisUnit
-from mindcastlib.src import apply_func_to_title, apply_func_to_comments, extract_titles, extract_comments, prepare_data_with_temporal_condition
+from mindcastlib.src import apply_func_to_title, apply_func_to_comments, extract_titles, extract_comments, prepare_data_with_temporal_condition, prepare_data
 from mindcastlib.src import should_collapse6, macro_slices_60x6, predict_6sentiments
 
 
@@ -167,11 +167,11 @@ class AnalysisPipeLine:
     
 if __name__ == "__main__":
 
-    tc = ["2023-05-01", "2023-05-02"]
-    data_dir = "/home/dongwoo38/data/example/ex.json"
-
-    data = prepare_data_with_temporal_condition(tc, data_dir=data_dir)
-
+    data_dir = "/home/dongwoo38/data/preprocessed_data/2020/02/01-10/news_comments.json"
+    
+    # tc = ["2023-05-01", "2023-05-02"]
+    # data = prepare_data_with_temporal_condition(tc, data_dir=data_dir)
+    data = prepare_data(data_dir)
     pipeline = AnalysisPipeLine(
         analysis_config=AnalysisConfig.SENT_CMT_TOPIC_TTL(),
         realtime=False,

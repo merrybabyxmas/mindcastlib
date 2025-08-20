@@ -11,8 +11,8 @@ class _EvaluationPipeLine:
         self.cfg = cfg or EvaluationConfig.DefaultConfig()
 
     def __call__(self, preds: List[str], trues: List[str]) -> Dict:
-        print(f"preds : {preds}")
-        print(f"trues : {trues}")
+        # print(f"preds : {preds}")
+        # print(f"trues : {trues}")
         
         # average는 EvaluationConfig 소속, zero_division은 pred 설정 사용(요구시 true로 변경 가능)
         precision, recall, f1, _ = precision_recall_fscore_support(

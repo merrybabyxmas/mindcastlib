@@ -27,7 +27,7 @@ class EvaluationConfig(BaseModel):
     @classmethod
     def SENT_CMT_ONLY(cls):
         return cls(
-            pred=EvaluationUnit(target="SentimentClassification_comments"),
+            pred=EvaluationUnit(target="SentimentClassificationPipeLine_comments"),
             true=EvaluationUnit(target="LLMPipeLine_comments"),
             labels=SENT_LABELS,
         )

@@ -127,8 +127,8 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s")
 
     tc = ["2023-05-01", "2023-05-02"]
-    pred_dir = "/home/dongwoo38/outputs/analysis/infer_20250820_133357.json"
-    true_dir = "/home/dongwoo38/outputs/labeled/labeling_20250820_141953.json"
+    pred_dir = "/home/dongwoo38/outputs/analysis/infer_20250820_145734.json"
+    true_dir = "/home/dongwoo38/outputs/labeled/labeling_20250820_145921.json"
 
     data_pred = prepare_data(data_dir=pred_dir)
     

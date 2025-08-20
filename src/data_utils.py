@@ -97,6 +97,8 @@ def extract_analysis_from_title(data: Dict, key: str, labels_only: bool = False)
                 if labels_only:
                     if isinstance(val, dict) and "label" in val:
                         results.append(val["label"])
+                    elif isinstance(val, dict):
+                        results.append(val["label"])
                     
                 else:
                     results.append(val)
@@ -117,6 +119,7 @@ def extract_analysis_from_comments(data: Dict, key: str, labels_only: bool = Fal
             analyses = post.get("analyses", {})
             if key in analyses:
                 for r in analyses[key]:  # r은 [{'label':..,'score':..}] 꼴
+                    print(r)
                     if labels_only:
                         # 가장 높은 score의 label만 가져오려면:
                         if isinstance(r, list) and len(r) > 0:
@@ -223,7 +226,9 @@ def apply_func_to_something_from_commentlike_double_data(
     labels_only: bool = False,
     **kwargs
 ) -> Dict:
+    print(f"true comments:")
     true_vals = extract_analysis_from_comments(data1, target1, labels_only=labels_only)
+    print(f"pred comments:")
     pred_vals = extract_analysis_from_comments(data2, target2, labels_only=labels_only)
     return func(true_vals, pred_vals, **kwargs)
 

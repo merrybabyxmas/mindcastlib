@@ -10,7 +10,7 @@ import pprint
 import torch
 
 from mindcastlib.configs import LabelingConfig
-from mindcastlib.src import apply_func_to_title, apply_func_to_comments, extract_titles, extract_comments, prepare_data_with_temporal_condition
+from mindcastlib.src import apply_func_to_title, apply_func_to_comments, extract_titles, extract_comments, prepare_data_with_temporal_condition, prepare_data
 from mindcastlib.src import LLMPipeLine, prompt_and_save_if_missing, load_api_keys
 
 
@@ -125,10 +125,14 @@ if __name__ == "__main__":
     
 
     
-    ##### 데이터 로딩 ###### 
-    tc = ["2023-05-01", "2023-05-02"]
-    data_dir = "/home/dongwoo38/data/example/ex.json"
-    data = prepare_data_with_temporal_condition(tc, data_dir=data_dir)
+    # ##### 데이터 로딩 ###### 
+    # tc = ["2023-05-01", "2023-05-02"]
+    # data_dir = "/home/dongwoo38/data/example/ex.json"
+    # data = prepare_data_with_temporal_condition(tc, data_dir=data_dir)
+    
+    
+    data_dir = "/home/dongwoo38/data/preprocessed_data/2020/02/01-10/news_comments.json"
+    data = prepare_data(data_dir)
     
     
     
