@@ -19,6 +19,8 @@ class EvaluationUnit(BaseModel):
 
 
 class EvaluationConfig(BaseModel):
+    target : Target
+    task : Task
     pred: EvaluationUnit
     true: EvaluationUnit
     labels: List[str]
@@ -27,6 +29,8 @@ class EvaluationConfig(BaseModel):
     @classmethod
     def SENT_CMT_ONLY(cls):
         return cls(
+            target = "comments",
+            task = "sentiment",
             pred=EvaluationUnit(target="SentimentClassificationPipeLine_comments"),
             true=EvaluationUnit(target="LLMPipeLine_comments"),
             labels=SENT_LABELS,

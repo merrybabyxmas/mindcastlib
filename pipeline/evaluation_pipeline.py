@@ -134,7 +134,7 @@ if __name__ == "__main__":
     
     data_true = prepare_data(data_dir=true_dir)
 
-    cfg = EvaluationConfig.SENT_CMT_ONLY()
+    cfg = EvaluationConfig.DefaultConfig()
 
     pipeline = EvaluationPipeLine(
         evaluation_config=cfg,
