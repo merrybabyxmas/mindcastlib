@@ -1,0 +1,5 @@
+assets/
+.venv/
+# .gitignore 파일 끝에 추가
+._*
+.DS_Store
