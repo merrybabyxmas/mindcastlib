@@ -813,6 +813,44 @@ def resident_population_run(cfg: dict):
     
     print("✅ Resident_Population 저장:", out_csv, "rows:", len(out), "max_date:", out["date"].max())
     
+def suicide_population_run(cfg:dict):
+     # 1) 수집
+    url = build_url_with_dynamic_period(cfg["openapi_url"], cfg.get("start_ym",))
+    raw = fetch_to_df(url)
+    
+    # 2) 전처리(collector에 포함)
+    raw["C1_NM"] = raw["C1_NM"].astype(str).str.strip()
+    raw = raw[raw["C1_NM"].eq("계")].copy()
+
+    df = raw[["PRD_DE", "DT"]].copy()
+    df.columns = df.columns.astype(str).str.strip()
+    df = df.rename(columns={
+    "PRD_DE": "date",
+    "DT": "자살자수"
+    })
+
+    if df["date"].str.len().iloc[0] == 6:
+        df["date"] = pd.to_datetime(df["date"], format="%Y%m").dt.strftime("%Y-%m")
+    else:
+        df["date"] = pd.to_datetime(df["date"], format="%Y").dt.strftime("%Y")
+    
+    out_csv = PROJECT_ROOT / cfg["output_csv"]
+    ensure_parent_dir(out_csv)
+    # 1) 이전 latest_날짜 파일 제거 + 오늘 파일 경로 생성
+    out_csv = replace_latest_dated_file(out_csv)
+    df.to_csv(out_csv, index=False, encoding="utf-8-sig")
+
+    # 4) metadata 기록
+    key = cfg.get("metadata_key", "suicide_population")
+    update_meta(METADATA_PATH, key, {
+        "saved_file": out_csv,
+        "source_url": url,
+        "rows": int(df.shape[0]),
+        "max_date": df["date"].max(),
+    })
+
+    print("✅ Suicide_Population 저장:", out_csv, "rows:", len(df), "max_date:", df["date"].max())
+    
 
 
 COLLECTOR_MAP = {
@@ -825,6 +863,7 @@ COLLECTOR_MAP = {
     "labor_force": labor_force_run,
     "working_index": working_index_run,
     "resident_population": resident_population_run,
+    "suicide_population": suicide_population_run,
 }
 # ============================================================
 # 📦 concat_database
@@ -922,41 +961,5 @@ def concat_database_run(cfg: dict):
         "rows:", len(df),
         "max_date:", max_date_str,
     )
-    """
-    start_date = cfg.get("start_date", "2020-01")
     
-    output_csv_tpl = PROJECT_ROOT / cfg["output_csv"]            # "../data/suicide_base_data_2020_{max_year}.csv"
-    metadata_key = cfg.get("metadata_key", "suicide_base_data")
-
-    df = merge_all_monthly_from_metadata(start_date=start_date)
-
-    max_year = pd.to_datetime(df["date"]).dt.year.max()
-
-    # 🔥 파일명 동적 치환
-    out_csv = output_csv_tpl.format(max_year=max_year)
-
-    # 3) 저장 (기존 collector 스타일 그대로)
-    ensure_parent_dir(out_csv)
-    out_csv = replace_latest_dated_file(out_csv)
-    df.to_csv(out_csv, index=False, encoding="utf-8-sig")
-
-    # 4) metadata 기록 (🔥 Timestamp → 문자열 변환)
-    max_date_str = (
-        pd.to_datetime(df["date"]).max().strftime("%Y-%m")
-        if not df.empty else None
-    )
-
-    update_meta(METADATA_PATH, metadata_key, {
-        "saved_file": out_csv,
-        "rows": int(df.shape[0]),
-        "max_date": max_date_str,     # ✅ JSON 직렬화 안전
-        "start_date": start_date,     # 문자열  
-    })
-
-    print(
-        "✅ Suicide_Base_Data 저장:",
-        out_csv,
-        "rows:", len(df),
-        "max_date:", max_date_str,
-    )
-    """
+    

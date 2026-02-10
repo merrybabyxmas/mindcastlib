@@ -60,6 +60,13 @@ collectors:
     start_ym: "200801"
     output_csv: "data_suicide_crawling/population/resident_population_latest.csv"
     metadata_key: "resident_population"
+
+  suicide_population:
+    enabled: true
+    openapi_url: "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg=&itmId=T2+&objL1=ALL&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&startPrdDe=201901&endPrdDe=202511&orgId=101&tblId=DT_1B34E17"
+    start_ym: "201901"
+    output_csv: "data_suicide_crawling/population/suicide_population_latest.csv"
+    metadata_key: "suicide_population"
   
   concat_database:
     "output_csv": "data_suicide_crawling/suicide_base_data_2020_{max_year}.csv"
