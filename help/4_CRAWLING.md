@@ -40,7 +40,8 @@ data_suicide_crawling/
  │   
  ├─ population/
  │   ├─ resident_population_latest_YYYYMMDD.csv
- │   └─ aver_mid_age_latest_YYYYMMDD.csv
+ │   ├─ aver_mid_age_latest_YYYYMMDD.csv
+ │   └─ suicide_population_YYYYMMDD.csv
  │   
  ├─ metadata.json
  └─ suicide_base_data_2020_{max_year}_latest_YYYYMMDD.csv
@@ -89,7 +90,7 @@ data_suicide_crawling/
 |--------|------|------|------|
 | `aver_mid_age_latest_20260208.csv` | 중위연령, 평균연령 | 세 | KOSIS |
 | `resident_population_latest_20260208.csv` | 총인구수, 0–14세 구성비, 15–64세 구성비, 고령인구비율 | 명, 비율(%) | KOSIS |
-
+| `suicide_population_latest_20260208.csv`  | 자살자수 | 명 | KOSIS |
 ---
 ## METADATA
 -metadata.json
