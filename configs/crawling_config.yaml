@@ -1,0 +1,75 @@
+collectors:
+  cpi:
+    enabled: true
+    openapi_url: "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg=&itmId=T+&objL1=T10+&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&startPrdDe=200602&endPrdDe=201505&orgId=101&tblId=DT_1J22003"
+    start_ym: "196501"
+    output_csv: "data_suicide_crawling/economic/cpi_latest.csv"
+    metadata_key: "cpi"
+  
+  loan:
+    enabled: true
+    openapi_url: "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg=&itmId=13103134771999+&objL1=ALL&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=Q&startPrdDe=200204&endPrdDe=202503&orgId=301&tblId=DT_151Y001"
+    start_ym: "200204"
+    output_csv: "data_suicide_crawling/economic/loan_latest.csv"
+    metadata_key: "loan"
+  
+  labor_force:
+    enabled: true
+    openapi_url: "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg=&itmId=T10+T20+T30+T40+T50+T60+T80+T90+&objL1=ALL&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&startPrdDe=199906&endPrdDe=202512&orgId=101&tblId=DT_1DA7001S"
+    start_ym: "199606"
+    output_csv: "data_suicide_crawling/economic/labor_force_latest.csv"
+    metadata_key: "labor_force"
+  
+  consumer_price_change_index:
+    enabled: true
+    openapi_url: "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg=&itmId=T+&objL1=ALL&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=Y&startPrdDe=1966&endPrdDe=2025&orgId=101&tblId=DT_1J22041" 
+    start_ym: "1966"
+    output_csv: "data_suicide_crawling/economic/consumer_price_change_index_latest.csv"
+    metadata_key: "consumer_price_change_index"
+  
+  average_working_day:
+    enabled: true
+    openapi_url: "https://www.index.go.kr/unity/openApi/sttsJsonViewer.do?idntfcId=920226Z31F5D03R1&ixCode=1485&statsCode=148505"
+    start_ym: "2011"
+    output_csv: "data_suicide_crawling/economic/average_working_day_latest.csv"
+    metadata_key: "average_working_day"
+  
+  gdp_gni:
+    enabled: true
+    openapi_url: "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg=&itmId=13103136258999+&objL1=ALL&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=Q&startPrdDe=196001&endPrdDe=202503&orgId=301&tblId=DT_200Y103"
+    start_ym: "196001"
+    output_csv: "data_suicide_crawling/economic/gdp_gni_latest.csv"
+    metadata_key: "gdp_gni"
+  
+  aver_mid_age:
+    enabled: true
+    openapi_url: "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg=&itmId=T1+T2+T3+T4+T5+T6+&objL1=ALL&objL2=ALL&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=Y&startPrdDe=2015&endPrdDe=2024&orgId=101&tblId=DT_1IN2030&version=v2_1"
+    start_ym: "2015"
+    output_csv: "data_suicide_crawling/population/aver_mid_age_latest.csv"
+    metadata_key: "aver_mid_age"
+  
+  working_index:
+    enabled: true
+    openapi_url: "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg=&itmId=13103110311MD_4+13103110311MD_7+13103110311MD_12+&objL1=190326INDUSTRY_10S0+&objL2=ALL&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&startPrdDe=202001&endPrdDe=202008&orgId=118&tblId=DT_118N_MON051"
+    output_csv: "data_suicide_crawling/economic/working_index_latest.csv"
+    metadata_key: "working_index"
+  
+  resident_population:
+    enabled: true
+    openapi_url: "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg=&itmId=T2+T3+T4+&objL1=00&objL2=ALL&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&startPrdDe=200801&endPrdDe=200806&orgId=101&tblId=DT_1B04006"
+    start_ym: "200801"
+    output_csv: "data_suicide_crawling/population/resident_population_latest.csv"
+    metadata_key: "resident_population"
+
+  suicide_population:
+    enabled: true
+    openapi_url: "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg=&itmId=T2+&objL1=ALL&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&startPrdDe=201901&endPrdDe=202511&orgId=101&tblId=DT_1B34E17"
+    start_ym: "201901"
+    output_csv: "data_suicide_crawling/population/suicide_population_latest.csv"
+    metadata_key: "suicide_population"
+  
+  concat_database:
+    "output_csv": "data_suicide_crawling/suicide_base_data_2020_{max_year}.csv"
+    "metadata_key": "suicide_base_data"
+  
+
