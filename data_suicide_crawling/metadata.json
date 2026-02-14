@@ -1,79 +1,79 @@
 {
   "cpi": {
-    "saved_file": "/mnt/e/mindcastlib/mindcastlib/data_suicide_crawling/economic/cpi_latest_20260211.csv",
+    "saved_file": "/home/sohyun42/mindcastlib/mindcastlib/data_suicide_crawling/economic/cpi_latest_20260214.csv",
     "source_url": "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg%3D&itmId=T+&objL1=T10+&format=json&jsonVD=Y&prdSe=M&startPrdDe=196501&endPrdDe=202602&orgId=101&tblId=DT_1J22003",
     "rows": 733,
     "max_date": "2026-01",
-    "collected_at": "2026-02-11T12:16:51"
+    "collected_at": "2026-02-14T17:39:58"
   },
   "loan": {
-    "saved_file": "/mnt/e/mindcastlib/mindcastlib/data_suicide_crawling/economic/loan_latest_20260211.csv",
+    "saved_file": "/home/sohyun42/mindcastlib/mindcastlib/data_suicide_crawling/economic/loan_latest_20260214.csv",
     "source_url": "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg%3D&itmId=13103134771999+&objL1=ALL&format=json&jsonVD=Y&prdSe=Q&startPrdDe=200204&endPrdDe=202602&orgId=301&tblId=DT_151Y001",
     "rows": 276,
     "max_date": "2025-09",
-    "collected_at": "2026-02-11T12:16:52"
+    "collected_at": "2026-02-14T17:39:58"
   },
   "labor_force": {
-    "saved_file": "/mnt/e/mindcastlib/mindcastlib/data_suicide_crawling/economic/labor_force_latest_20260211.csv",
+    "saved_file": "/home/sohyun42/mindcastlib/mindcastlib/data_suicide_crawling/economic/labor_force_latest_20260214.csv",
     "source_url": "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg%3D&itmId=T10+T20+T30+T40+T50+T60+T80+T90+&objL1=ALL&format=json&jsonVD=Y&prdSe=M&startPrdDe=199606&endPrdDe=202602&orgId=101&tblId=DT_1DA7001S",
     "rows": 320,
     "max_date": "2026-01",
-    "collected_at": "2026-02-11T12:17:00"
+    "collected_at": "2026-02-14T17:40:01"
   },
   "consumer_price_change_index": {
-    "saved_file": "/mnt/e/mindcastlib/mindcastlib/data_suicide_crawling/economic/consumer_price_change_index_latest_20260211.csv",
+    "saved_file": "/home/sohyun42/mindcastlib/mindcastlib/data_suicide_crawling/economic/consumer_price_change_index_latest_20260214.csv",
     "source_url": "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg%3D&itmId=T+&objL1=ALL&format=json&jsonVD=Y&prdSe=Y&startPrdDe=1966&endPrdDe=202602&orgId=101&tblId=DT_1J22041",
     "rows": 720,
     "max_date": "2025-12",
-    "collected_at": "2026-02-11T12:17:00"
+    "collected_at": "2026-02-14T17:40:02"
   },
   "average_working_day": {
-    "saved_file": "/mnt/e/mindcastlib/mindcastlib/data_suicide_crawling/economic/average_working_day_latest_20260211.csv",
+    "saved_file": "/home/sohyun42/mindcastlib/mindcastlib/data_suicide_crawling/economic/average_working_day_latest_20260214.csv",
     "source_url": "https://www.index.go.kr/unity/openApi/sttsJsonViewer.do?idntfcId=920226Z31F5D03R1&ixCode=1485&statsCode=148505",
     "rows": 179,
     "max_date": "2025-11",
-    "collected_at": "2026-02-11T12:17:01"
+    "collected_at": "2026-02-14T17:40:02"
   },
   "gdp_gni": {
-    "saved_file": "/mnt/e/mindcastlib/mindcastlib/data_suicide_crawling/economic/gdp_gni_latest_20260211.csv",
+    "saved_file": "/home/sohyun42/mindcastlib/mindcastlib/data_suicide_crawling/economic/gdp_gni_latest_20260214.csv",
     "source_url": "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg%3D&itmId=13103136258999+&objL1=ALL&format=json&jsonVD=Y&prdSe=Q&startPrdDe=196001&endPrdDe=202602&orgId=301&tblId=DT_200Y103",
     "rows": 789,
     "max_date": "2025-09",
-    "collected_at": "2026-02-11T12:17:07"
+    "collected_at": "2026-02-14T17:40:05"
   },
   "aver_mid_age": {
-    "saved_file": "/mnt/e/mindcastlib/mindcastlib/data_suicide_crawling/population/aver_mid_age_latest_20260211.csv",
+    "saved_file": "/home/sohyun42/mindcastlib/mindcastlib/data_suicide_crawling/population/aver_mid_age_latest_20260214.csv",
     "source_url": "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg%3D&itmId=T1+T2+T3+T4+T5+T6+&objL1=ALL&objL2=ALL&format=json&jsonVD=Y&prdSe=Y&startPrdDe=2015&endPrdDe=202602&orgId=101&tblId=DT_1IN2030&version=v2_1",
     "rows": 120,
     "max_date": "2024-12",
-    "collected_at": "2026-02-11T12:17:22"
+    "collected_at": "2026-02-14T17:40:11"
   },
   "working_index": {
-    "saved_file": "/mnt/e/mindcastlib/mindcastlib/data_suicide_crawling/economic/working_index_latest_20260211.csv",
+    "saved_file": "/home/sohyun42/mindcastlib/mindcastlib/data_suicide_crawling/economic/working_index_latest_20260214.csv",
     "source_url": "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg=&itmId=13103110311MD_4+13103110311MD_7+13103110311MD_12+&objL1=190326INDUSTRY_10S0+&objL2=ALL&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&startPrdDe=202001&endPrdDe=202008&orgId=118&tblId=DT_118N_MON051",
     "rows": 71,
     "max_date": "2025-11",
-    "collected_at": "2026-02-11T12:17:33"
+    "collected_at": "2026-02-14T17:40:18"
   },
   "resident_population": {
-    "saved_file": "/mnt/e/mindcastlib/mindcastlib/data_suicide_crawling/population/resident_population_latest_20260211.csv",
+    "saved_file": "/home/sohyun42/mindcastlib/mindcastlib/data_suicide_crawling/population/resident_population_latest_20260214.csv",
     "source_url": "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg=&itmId=T2+T3+T4+&objL1=00&objL2=ALL&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&startPrdDe=200801&endPrdDe=200806&orgId=101&tblId=DT_1B04006",
     "rows": 217,
     "max_date": "2026-01",
-    "collected_at": "2026-02-11T12:18:35"
+    "collected_at": "2026-02-14T17:40:46"
   },
   "suicide_base_data": {
-    "saved_file": "/mnt/e/mindcastlib/mindcastlib/data_suicide_crawling/suicide_base_data_2020_2024_20260211.csv",
+    "saved_file": "/home/sohyun42/mindcastlib/mindcastlib/data_suicide_crawling/suicide_base_data_2020_2024_20260214.csv",
     "rows": 60,
     "max_date": "2024-12",
     "start_date": "2020-01",
-    "collected_at": "2026-02-11T12:18:36"
+    "collected_at": "2026-02-14T17:40:46"
   },
   "suicide_population": {
-    "saved_file": "/mnt/e/mindcastlib/mindcastlib/data_suicide_crawling/population/suicide_population_latest_20260211.csv",
+    "saved_file": "/home/sohyun42/mindcastlib/mindcastlib/data_suicide_crawling/population/suicide_population_latest_20260214.csv",
     "source_url": "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg%3D&itmId=T2+&objL1=ALL&format=json&jsonVD=Y&prdSe=M&startPrdDe=201901&endPrdDe=202602&orgId=101&tblId=DT_1B34E17",
     "rows": 83,
     "max_date": "2025-11",
-    "collected_at": "2026-02-11T12:18:36"
+    "collected_at": "2026-02-14T17:40:46"
   }
 }

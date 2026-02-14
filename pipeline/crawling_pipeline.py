@@ -39,7 +39,7 @@ def run_collectors(collectors_cfg: dict):
             raise
 
 
-def run_concat_database(cfg: dict | None):
+def run_concat_database(cfg=None):
     if not cfg:
         log("INFO", "ℹ️ concat_database 설정이 없어 스킵합니다.")
         return
