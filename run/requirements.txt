@@ -1,7 +1,6 @@
 torch
 transformers
 pydantic>=2.0
-pandas
 plotly
 datasets
 accelerate
