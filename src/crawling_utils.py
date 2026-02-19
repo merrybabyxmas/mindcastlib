@@ -349,7 +349,7 @@ def consumer_price_change_index_run(cfg: dict):
     else:
         df["date"] = pd.to_datetime(df["date"], format="%Y").dt.strftime("%Y")
 
-    df  = expand_year_to_months(df, year_col="date", value_cols = None) # 연간데이터를 복사해서 월별데이터로 변환 
+    #df  = expand_year_to_months(df, year_col="date", value_cols = None) # 연간데이터를 복사해서 월별데이터로 변환 
     # 3) 저장
     out_csv = PROJECT_ROOT / cfg["output_csv"]
     ensure_parent_dir(out_csv)

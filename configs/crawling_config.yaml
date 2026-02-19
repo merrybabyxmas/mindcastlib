@@ -22,8 +22,8 @@ collectors:
   
   consumer_price_change_index:
     enabled: true
-    openapi_url: "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg=&itmId=T+&objL1=ALL&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=Y&startPrdDe=1966&endPrdDe=2025&orgId=101&tblId=DT_1J22041" 
-    start_ym: "1966"
+    openapi_url: "https://kosis.kr/openapi/Param/statisticsParameterData.do?method=getList&apiKey=NWU2MDIyZjQ4ZDI4YWMyZGQyOTIxZDRjMTc1NTg0ZDg=&itmId=T02+T03+T04+&objL1=ALL&objL2=&objL3=&objL4=&objL5=&objL6=&objL7=&objL8=&format=json&jsonVD=Y&prdSe=M&startPrdDe=196502&endPrdDe=202601&orgId=101&tblId=DT_1J22042"
+    start_ym: "1965"
     output_csv: "data_suicide_crawling/economic/consumer_price_change_index_latest.csv"
     metadata_key: "consumer_price_change_index"
   
