@@ -330,13 +330,21 @@ def cpi_run(cfg: dict):
 
 def consumer_price_change_index_run(cfg: dict):
     # 1) 수집
+    
     url = build_url_with_dynamic_period(cfg["openapi_url"], cfg.get("start_ym",))
     raw = fetch_to_df(url)
-    
+   
     # 2) 전처리(collector에 포함)
     raw["C1_NM"] = raw["C1_NM"].astype(str).str.strip()
-    raw = raw[raw["C1_NM"].eq("총지수")].copy()
+    raw["ITM_NM"] = raw["ITM_NM"].astype(str).str.strip()
 
+    raw = raw[
+        (raw["C1_NM"] == "총지수") &
+        (raw["ITM_NM"] == "전월비")
+    ].copy()
+
+    
+    
     df = raw[["PRD_DE", "DT"]].copy()
     df.columns = df.columns.astype(str).str.strip()
     df = df.rename(columns={
@@ -348,8 +356,9 @@ def consumer_price_change_index_run(cfg: dict):
         df["date"] = pd.to_datetime(df["date"], format="%Y%m").dt.strftime("%Y-%m")
     else:
         df["date"] = pd.to_datetime(df["date"], format="%Y").dt.strftime("%Y")
-
-    #df  = expand_year_to_months(df, year_col="date", value_cols = None) # 연간데이터를 복사해서 월별데이터로 변환 
+    
+    
+    
     # 3) 저장
     out_csv = PROJECT_ROOT / cfg["output_csv"]
     ensure_parent_dir(out_csv)
@@ -367,6 +376,7 @@ def consumer_price_change_index_run(cfg: dict):
     })
 
     print("✅ Consumer_Price_Change_Index 저장:", out_csv, "rows:", len(df), "max_date:", df["date"].max())
+    
 
 
 def average_working_day_run(cfg: dict):
@@ -871,13 +881,17 @@ COLLECTOR_MAP = {
 def find_min_data(metadata_path = METADATA_PATH):
     with open(metadata_path, "r", encoding="utf-8") as f:
         meta = json.load(f)
-    max_dates =[]
-    for k,v in meta.items():
+
+    max_dates = []
+    for k, v in meta.items():
+        if k == "suicide_base_data":   # 🔥 base 제외
+            continue
         if "max_date" in v and v["max_date"]:
-            max_dates.append(pd.to_datetime(v["max_date"],format="%Y-%m",errors="raise"))
+            max_dates.append(pd.to_datetime(v["max_date"], format="%Y-%m", errors="raise"))
+
     common_min_date = min(max_dates)
-    #print("기준 월",common_min_date)
-    return common_min_date 
+    return common_min_date
+
 
 def load_and_trim_monthly(csv_path, start_date, end_date, date_col="date"):
     df = pd.read_csv(csv_path)
@@ -897,6 +911,7 @@ def load_and_trim_monthly(csv_path, start_date, end_date, date_col="date"):
     return df.sort_values(date_col).reset_index(drop=True)
 
 def merge_all_monthly_from_metadata(metadata_path = METADATA_PATH, start_date="2020-01", date_col="date"):
+    
     with open(metadata_path, "r", encoding="utf-8") as f:
         meta = json.load(f)
 
@@ -921,6 +936,8 @@ def merge_all_monthly_from_metadata(metadata_path = METADATA_PATH, start_date="2
         df_merged = df_merged.merge(df, on=date_col, how="inner")
 
     return df_merged.sort_values(date_col).reset_index(drop=True)
+
+    
 
 def concat_database_run(cfg: dict):
     start_date = cfg.get("start_date", "2020-01")
@@ -961,5 +978,6 @@ def concat_database_run(cfg: dict):
         "rows:", len(df),
         "max_date:", max_date_str,
     )
+    
     
     
